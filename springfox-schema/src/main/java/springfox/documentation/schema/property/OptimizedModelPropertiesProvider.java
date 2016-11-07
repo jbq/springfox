@@ -39,6 +39,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.protobuf.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -370,7 +371,9 @@ public class OptimizedModelPropertiesProvider implements ModelPropertiesProvider
   }
 
   private BeanDescription beanDescription(ResolvedType type, ModelContext context) {
-    if (context.isReturnType()) {
+      // Use serialization config for all protobuf types
+      if (Message.class.isAssignableFrom(type.getErasedType()) ||
+                      context.isReturnType()) {
       SerializationConfig serializationConfig = objectMapper.getSerializationConfig();
       return serializationConfig.introspect(TypeFactory.defaultInstance()
           .constructType(type.getErasedType()));

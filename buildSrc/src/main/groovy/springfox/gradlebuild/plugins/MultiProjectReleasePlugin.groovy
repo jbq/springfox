@@ -121,7 +121,7 @@ public class MultiProjectReleasePlugin implements Plugin<Project> {
   }
 
   def configureVersionAndPublications(Project project, BuildInfo buildInfo) {
-    project.version = "${buildInfo.buildVersion.asText()}"
+    project.version = "2.6.0-p1"
     project.ext.buildInfo = buildInfo
 
     configurePublications(project, buildInfo)
